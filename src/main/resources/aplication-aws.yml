@@ -1,0 +1,13 @@
+server:
+  port: 5000
+spring:
+  datasource:
+    url: jdbc:mysql://cloulddev.cf4wunysxb3j.sa-east-1.rds.amazonaws.com:3306/mini_sys_db
+    username: devadm
+    password: minisys2023
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: false
