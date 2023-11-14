@@ -6,8 +6,12 @@ import com.learning.api.minisysapi.entity.UsuarioEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,9 +42,34 @@ public class UsuarioControler {
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NewResourceDTO> addNewUsuario(@RequestBody UsuarioDTO usuarioDTO) {
 
-        UsuarioEntity newUsuario = this.usuarioService.addNewUsuario(usuarioDTO.getNome(), usuarioDTO.getSenha());
+        UsuarioEntity newUsuario = this.usuarioService.addNewUsuario(
+                usuarioDTO.getName(), usuarioDTO.getEmail(), usuarioDTO.getPassword());
 
         return new ResponseEntity<>(new NewResourceDTO(newUsuario.getGuid()), HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+
+        if(!StringUtils.hasText(usuarioDTO.getGuid())){
+            throw new IllegalArgumentException("Usuário não pode ser null ou vazio");
+        }
+
+        this.usuarioService.updateUsuario(
+                usuarioDTO.getGuid(),
+                usuarioDTO.getName(),
+                usuarioDTO.getEmail(),
+                usuarioDTO.getPassword());
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping(value = "{guid}")
+    public ResponseEntity<Void> deleteUsuario(@PathVariable String guid) {
+
+        this.usuarioService.deleteUsuario(guid);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

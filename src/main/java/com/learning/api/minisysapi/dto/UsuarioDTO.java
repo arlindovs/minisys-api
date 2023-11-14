@@ -12,16 +12,20 @@ public class UsuarioDTO {
     private String guid;
 
     @NotBlank(message = "Nome do usuário não pode ser null ou vazio")
-    private String nome;
+    private String name;
+
+    @NotBlank(message = "Nome do usuário não pode ser null ou vazio")
+    private String email;
 
     @NotBlank(message = "Senha não pode ser null ou vazio")
-    private String senha;
+    private String password;
 
     public static UsuarioDTO toDTO(UsuarioEntity usuarioEntity){
         return UsuarioDTO.builder()
                 .guid(usuarioEntity.getGuid())
-                .nome(usuarioEntity.getNome())
-                .senha(usuarioEntity.getSenha())
+                .name(usuarioEntity.getName())
+                .email(usuarioEntity.getEmail())
+                .password(usuarioEntity.getPassword())
                 .build();
     }
 }
