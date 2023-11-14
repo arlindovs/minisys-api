@@ -18,11 +18,13 @@ public class UsuarioEntity extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long usuarioId;
+    private Long CODIGO;
 
     @Column(unique = true)
-    private String nome;
+    private String name;
 
-    private String senha;
+    private String email;
+
+    private String password;
 
 }
