@@ -10,11 +10,12 @@ import java.util.Optional;
 @Repository
 public interface UsuarioRepository extends PagingAndSortingRepository<UsuarioEntity, Long>, JpaRepository<UsuarioEntity, Long>{
 
-    Optional<UsuarioEntity> findByName(String name);
+    UsuarioEntity findByName(String name);
 
     Optional<UsuarioEntity> findByEmail(String email);
 
     Optional<UsuarioEntity> findByPassword(String password);
 
     Optional<UsuarioEntity> findByGuid(String guid);
+
 }
