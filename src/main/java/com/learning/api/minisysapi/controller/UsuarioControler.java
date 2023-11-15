@@ -3,10 +3,14 @@ package com.learning.api.minisysapi.controller;
 import com.learning.api.minisysapi.dto.NewResourceDTO;
 import com.learning.api.minisysapi.dto.UsuarioDTO;
 import com.learning.api.minisysapi.entity.UsuarioEntity;
+import com.learning.api.minisysapi.repository.UsuarioRepository;
+import com.learning.api.minisysapi.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +19,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.learning.api.minisysapi.service.UsuarioService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +26,7 @@ import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/api/v1/usuarios")
+@CrossOrigin(origins = "http://localhost:4200/")
 public class UsuarioControler {
 
     private final UsuarioService usuarioService;
@@ -70,6 +74,23 @@ public class UsuarioControler {
         this.usuarioService.deleteUsuario(guid);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+    /*
+    *  Controller para login de usuário
+    */
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody UsuarioEntity userData){
+            System.out.println(userData);
+        UsuarioEntity user = usuarioRepository.findByName(userData.getName());
+        if(user.getPassword().equals(userData.getPassword()))
+            return ResponseEntity.ok(user);
+        else
+            return (ResponseEntity<?>) ResponseEntity.internalServerError();
     }
 
 }
