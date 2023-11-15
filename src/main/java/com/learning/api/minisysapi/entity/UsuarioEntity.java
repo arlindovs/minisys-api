@@ -15,9 +15,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-@Table(indexes = { @Index(name = "IDX_GUID_USU", columnList = "guid") }, name="loginUser")
-@Data
+@Entity(name = "usuario")
+@Table(indexes = { @Index(name = "IDX_GUID_USU", columnList = "guid") }, name="usuario")
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioEntity extends BaseEntity{
@@ -26,11 +25,13 @@ public class UsuarioEntity extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long CODIGO;
 
-    @Column(unique = true)
+    @Column(name = "NOME", unique = true)
     private String name;
 
+    @Column(name = "EMAIL", unique = true)
     private String email;
 
+    @Column(name = "SENHA")
     private String password;
 
 }
