@@ -1,8 +1,9 @@
-package com.learning.api.minisysapi.service;
+package com.learning.api.minisysapi.service.usuario;
 
-import com.learning.api.minisysapi.entity.UsuarioEntity;
+import com.learning.api.minisysapi.entity.usuario.UsuarioEntity;
+import com.learning.api.minisysapi.entity.usuario.UsuarioRoleEntity;
 import com.learning.api.minisysapi.exception.ResourceNotFoundException;
-import com.learning.api.minisysapi.repository.UsuarioRepository;
+import com.learning.api.minisysapi.repository.usuario.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,10 +21,11 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public UsuarioEntity addNewUsuario(String name, String email, String password){
+    public UsuarioEntity addNewUsuario(String name, String email, String password, UsuarioRoleEntity role){
         if(!StringUtils.hasText(name) ||
                 !StringUtils.hasText(email) ||
-                !StringUtils.hasText(password)){
+                !StringUtils.hasText(password) ||
+                !StringUtils.hasText(String.valueOf(role))){
             throw new IllegalArgumentException("Parametros fornecidos não podem ser null ou vazios");
         }
 
@@ -32,6 +34,7 @@ public class UsuarioService {
         newUsuario.setName(name);
         newUsuario.setEmail(email);
         newUsuario.setPassword(password);
+        newUsuario.setRole(role);
 
         log.debug("Adding a new usuario with name [ name = {} ]", name);
 

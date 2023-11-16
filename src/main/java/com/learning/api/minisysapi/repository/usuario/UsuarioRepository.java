@@ -1,8 +1,9 @@
-package com.learning.api.minisysapi.repository;
+package com.learning.api.minisysapi.repository.usuario;
 
-import com.learning.api.minisysapi.entity.UsuarioEntity;
+import com.learning.api.minisysapi.entity.usuario.UsuarioEntity;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
