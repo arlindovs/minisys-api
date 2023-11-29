@@ -21,7 +21,7 @@ public class JwtTokenUtil implements Serializable {
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
     @Value("${jwt.secret}")
-    private String value;
+    private String secret;
 
     //retorna o username do token
     public String getUsernameFromToken(String token){
@@ -29,18 +29,18 @@ public class JwtTokenUtil implements Serializable {
     }
 
     //retorna a data de expiração do token jwt
-    public Date getExpirationDateFromToken(Date token){
+    public Date getExpirationDateFromToken(String token){
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    public <T> T getClaimFromToken(String toke, Function<Claims, T> claimsResolver){
+    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver){
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
 
     //para retornar qualquer informação do token vamos precisar da secret key
     private Claims getAllClaimsFromToken(String token){
-        return Jwts.parserBuilder().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
     //checa se o token expirou
